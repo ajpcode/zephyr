@@ -26,6 +26,7 @@
 #include <stddef.h>
 #include <sys/types.h>
 #include <zephyr/device.h>
+#include <zephyr/sys/printk.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -270,6 +271,11 @@ static inline int z_impl_flash_write(const struct device *dev, off_t offset,
 	const struct flash_driver_api *api =
 		(const struct flash_driver_api *)dev->api;
 	int rc;
+
+	printk( __func__ );
+
+	printk( "\n%p", &(api->write) );
+	printk( "\n%p", &(api->get_parameters) );
 
 	rc = api->write(dev, offset, data, len);
 

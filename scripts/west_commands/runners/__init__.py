@@ -53,6 +53,7 @@ _names = [
     'qemu',
     'silabs_commander',
     'spi_burn',
+    'stm32cubeide',
     'stm32cubeprogrammer',
     'stm32flash',
     'teensy',

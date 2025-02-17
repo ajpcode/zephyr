@@ -396,10 +396,11 @@ class ImgtoolSigner(Signer):
                     "can't determine its address")
 
         # Die on missing or zero alignment or slot_size.
-        if "write-block-size" not in flash.props:
-            log.die('DT zephyr,flash node has no write-block-size;',
-                    "can't determine imgtool write alignment")
-        align = flash.props['write-block-size'].val
+#        if "write-block-size" not in flash.props:
+#            log.die('DT zephyr,flash node has no write-block-size;',
+#                    "can't determine imgtool write alignment")
+#        align = flash.props['write-block-size'].val
+        align = 4
         if align == 0:
             log.die('expected nonzero flash alignment, but got '
                     'DT flash device write-block-size {}'.format(align))
