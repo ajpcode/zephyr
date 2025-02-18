@@ -999,7 +999,7 @@ static int stm32_ospi_set_memorymap(const struct device *dev)
 //	}
 
 	/* Initialize the read command */
-	s_command.OperationType = HAL_OSPI_OPTYPE_READ_CFG;
+	/* s_command.OperationType = HAL_OSPI_OPTYPE_READ_CFG;
 	s_command.FlashId = HAL_OSPI_FLASH_ID_1;
 	s_command.InstructionMode = (dev_cfg->data_rate == OSPI_STR_TRANSFER)
 				? ((dev_cfg->data_mode != OSPI_OPI_MODE)
@@ -1072,9 +1072,28 @@ static int stm32_ospi_set_memorymap(const struct device *dev)
 	LOG_DBG("s_command.DQSMode = 0x%X", s_command.DQSMode );
 
 	s_command.SIOOMode = HAL_OSPI_SIOO_INST_EVERY_CMD;
-	LOG_DBG("s_command.SIOOMode = 0x%X", s_command.SIOOMode );
+	LOG_DBG("s_command.SIOOMode = 0x%X", s_command.SIOOMode ); */
 
-	ret = HAL_OSPI_Command(&dev_data->hospi, &s_command, HAL_OSPI_TIMEOUT_DEFAULT_VALUE);
+	/* Initialise the read command */
+	s_command.OperationType = HAL_OSPI_OPTYPE_READ_CFG;
+	s_command.FlashId = HAL_OSPI_FLASH_ID_1;
+	s_command.InstructionMode = HAL_OSPI_INSTRUCTION_1_LINE;
+	s_command.InstructionDtrMode = HAL_OSPI_INSTRUCTION_DTR_DISABLE;
+	s_command.InstructionSize = HAL_OSPI_INSTRUCTION_8_BITS;
+	s_command.Instruction = 0xEB;
+	s_command.AddressMode = HAL_OSPI_ADDRESS_4_LINES;
+	s_command.AddressDtrMode = HAL_OSPI_ADDRESS_DTR_DISABLE;
+	s_command.AddressSize = HAL_OSPI_ADDRESS_24_BITS;
+	s_command.AlternateBytesMode = HAL_OSPI_ALTERNATE_BYTES_NONE;
+	s_command.DataMode = HAL_OSPI_DATA_4_LINES;
+	s_command.DataDtrMode = HAL_OSPI_DATA_DTR_DISABLE;
+	s_command.DummyCycles = 6U;
+	s_command.DQSMode = HAL_OSPI_DQS_DISABLE;
+	s_command.SIOOMode = HAL_OSPI_SIOO_INST_EVERY_CMD;
+	s_command.NbData = 16 * 1024 * 1024;
+
+
+		ret = HAL_OSPI_Command(&dev_data->hospi, &s_command, HAL_OSPI_TIMEOUT_DEFAULT_VALUE);
 	if (ret != HAL_OK) {
 		LOG_ERR("%d: Failed to set memory map", ret);
 		return -EIO;
